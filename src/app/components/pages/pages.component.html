@@ -1,0 +1,32 @@
+<div class="container btn-toolbar pagination pt-2" role="toolbar" aria-label="Pagination">
+	<div class="background">
+		<div class="pages">
+			<a *ngIf="pager.pages && pager.pages.length  && pager.pages[0] > 1"
+				[ngClass]="{disabled:pager.currentPage === 1}" (click)="setPage(1, true)"
+				class="btn btn-link btn-circle page">
+				<span class="sr-only">Go to page</span>
+				<span>1</span>
+			</a>
+
+			<a *ngIf="pager.pages && pager.pages.length  && pager.pages[0] > 2" class="btn dotDot">
+				<span>...</span>
+			</a>
+
+			<!-- <span class="page ellipsis hide-in-tablet hide-in-mobile">...</span>         -->
+			<a *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}"
+				(click)="setPage(page, true)" class="btn btn-link btn-circle page ">
+				<span class="sr-only">Go to page</span>
+				<span>{{page}}</span>
+			</a>
+			<a [ngClass]="{disabled:pager.currentPage === 1}" (click)="setPage(pager.currentPage - 1, true)"
+				class="btn btn-icon btn-arrow arrow" aria-label="Previous page">
+				&lt;
+			</a>
+			<a [ngClass]="{disabled:pager.currentPage === pager.totalPages}"
+				(click)="setPage(pager.currentPage + 1, true)" class="btn btn-icon btn-arrow arrow"
+				aria-label="Next page">
+				&gt;
+			</a>
+		</div>
+	</div>
+</div>

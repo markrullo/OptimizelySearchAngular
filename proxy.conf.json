@@ -1,0 +1,16 @@
+
+{
+	"/api": {
+		"target": "https://localhost:44325/",
+		"secure": false,
+    	"logLevel": "debug"
+
+	},
+	"/find_v2": {
+		"target": "https://localhost:44325/",
+		"secure": false,
+    	"logLevel": "debug"
+
+	}
+	
+}

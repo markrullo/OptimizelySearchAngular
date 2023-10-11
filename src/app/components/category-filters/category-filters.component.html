@@ -1,0 +1,53 @@
+<ng-container *ngIf="blockDetails$ | async as blockDetails">
+	<div  id="CatFilters"  *ngIf="blockDetails.groups.length > 0"
+		[ngClass]="(openMenu$ | async) ? 'showMenu' : ''" role="toolbar">
+
+			<div role="status" id="search-results-title" class="results-title h4 mx-auto mb-1">Refine by</div>
+
+			<div id="search-results-close-button" class="btn btn-primary d-block d-md-none mb-1 btn-small" (click)="toggleMenu()">
+				Close
+			</div>
+			<!-- Category Groups -->
+			<div class="accordion">
+				<ng-container *ngFor="let catGroup of blockDetails.groups">
+					<ng-container *ngIf="catGroup.nonZeroCategoryCount() > 0">
+						<div class="card card-collapse">
+							<p class="card-header h6">								
+								{{catGroup.name}}								
+							</p>
+							<div id="collapse{{catGroup.id}}" class="px-1 accordion-collapse collapse show"
+								aria-labelledby="headingOne">
+								<div class="accordion-body"
+									*ngFor="let cat of catGroup.cats | slice:0:catGroup.howManyResultsToShow()">
+									<div class="form-check" *ngIf="cat.count > 0">
+										<input (click)="tagClicked(cat)" role="button" class="form-check-input"
+											type="checkbox" value="" [checked]="isTagSelected(cat)" id="{{cat.name}}">
+										<label class="form-check-label" role="button" for="{{cat.name}}">
+											{{cat.name}}&nbsp;({{cat.count}})
+										</label>
+									</div>
+								</div>
+								<!--Show more less buttons-->
+								<div class="mt-1 text-right">
+									<div
+										*ngIf="catGroup.expand === false && catGroup.nonZeroCategoryCount() > catGroup.howManyResultsToShow()">
+										<div class="btn btn-sm" (click)="catGroup.expand = true">
+											Show All
+										</div>
+									</div>
+									<div
+										*ngIf="catGroup.expand === true && catGroup.nonZeroCategoryCount() > catGroup.resultsToShow ">
+										<div class="btn btn-sm" (click)="catGroup.expand = false">
+											Show Less
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</ng-container>
+				</ng-container>
+			</div>
+		
+	</div>
+</ng-container>

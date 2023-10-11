@@ -1,0 +1,53 @@
+<!-- Section with results  -->
+<section class="container card-collection col">
+	<!-- Number of Results and user selected categories-->
+	<sk-page-type-filters />
+
+
+	<ng-container *ngIf="searchResults$ | async as results">
+		<!-- Search result cards  -->
+		<div class="cards row row-cols-1 row-cols-md-1 row-cols-xl-1">
+			<div *ngFor="let result of results" class="col">
+				<div class="card card-thin hide-img-mobile">
+					<!-- [ngClass]="{'isBestBet':result.isBestBet === true}" -->
+					<div class="card-body">
+						<!-- <div>
+							id: {{result.hitNumber}} hitType:{{result.hitType}}
+						</div> -->
+						<p class="card-tite h6">
+							<a [href]="result.link" class="stretched-link" [innerHTML]="result.name"></a>
+							<!-- (click)="linkClick(result, $event)" -->
+
+						</p>
+						<p class="card-text text-muted" *ngIf="result.hitType === 'ArticlePage'">							
+							Published: {{result.publishDate  | date:"MMMM dd, YYYY"}}
+						</p>
+						<p class="card-text card-lead" *ngIf="result.teaserText">
+							<!-- Teaser -->
+							{{result.teaserText}}
+						</p>
+						<div>
+							<!-- Excerpt -->
+							<p class="card-text card-lead" *ngIf="!result.teaserText" [innerHTML]="result.excerpt">
+							</p>
+						</div>
+						<!-- <div class="card-footer" *ngIf="result.tags">
+								<div *ngFor="let tag of result.tags" class="badge badge-pill badge-primary">
+									{{tag.name}}
+								</div>
+							</div> -->
+					</div>
+				</div>
+				<!-- This is if we want to use click trackng -->
+				<!-- <a [routerLink]="" (click)="linkClick(result)">{{result.name}}</a> -->
+			</div>
+
+		</div>
+
+		<!-- Pagination  -->
+		<ng-container *ngIf="filteredSearchResults$ | async as unPagedResults">
+			<sk-pages [items]="unPagedResults" [pageSize]="10" [maxPages]="3"
+				(changePage)="onChangePage($event)"></sk-pages>
+		</ng-container>
+	</ng-container>
+</section>

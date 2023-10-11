@@ -1,0 +1,101 @@
+<!-- Page Type Filters -->
+<ng-container *ngIf="pageFiltersWithCounts$ | async as pageTypeFilters">
+	<div class="cards row pb-2" *ngIf="pageTypeFilters.length > 0">
+		<ng-container *ngIf="selectedPageTypeFilter$ | async as selectedPageTypeFilter">
+
+			<div class="col mb-1 d-none d-md-block">
+				<div class="row mx-1">
+
+					<div class="col mr-lg-2 btn btn-square" (click)="setPageTypeFilter([])"
+						[ngClass]="selectedPageTypeFilter.length == 0 ? 'btn-primary' :'btn-link'">
+						Show All ({{(categoryFilteredSearchResults$ | async)?.length}})
+					</div>
+					<ng-container *ngFor="let filter of pageTypeFilters">
+
+						<div class="col mr-lg-2 btn btn-square" (click)="setPageTypeFilter(filter.filterValue)"
+							[ngClass]="comparePageTypeFilters(selectedPageTypeFilter, filter.filterValue) ? 'btn-primary':'btn-link'">
+							{{filter.displayName}} ({{filter.hitCount}})
+						</div>
+					</ng-container>
+				</div>
+			</div>
+
+
+
+			<div class="col-5 d-md-none" *ngIf="!!(searchResults$ | async)">
+				<div class="catFilterToggle btn btn-outline-primary" (click)="toggleMenu()">
+					Filters <i class="bi bi-filter"></i>
+				</div>
+			</div>
+
+			<!-- Mobile view of page type filters -->
+			<div class="col d-md-none btn-group" *ngIf="selectedPageTypeFilter$ | async as selectedPageTypeFilter">
+				<button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown"
+					aria-haspopup="true" aria-expanded="false">
+					<ng-container *ngIf="selectedPageTypeFilter.length == 0">
+						Show All ({{(categoryFilteredSearchResults$ | async)?.length}})
+					</ng-container>
+					<ng-container *ngFor="let filter of pageTypeFilters">
+						<ng-container *ngIf="comparePageTypeFilters(selectedPageTypeFilter, filter.filterValue)">
+							{{filter.displayName}} ({{filter.hitCount}})
+						</ng-container>
+					</ng-container>
+				</button>
+				<div class="dropdown-menu">
+					<div class="dropdown-item" (click)="setPageTypeFilter([])">
+						Show All ({{(categoryFilteredSearchResults$ | async)?.length}})
+					</div>
+
+					<div *ngFor="let filter of pageTypeFilters" class="dropdown-item"
+						(click)="setPageTypeFilter(filter.filterValue)"
+						[ngClass]="comparePageTypeFilters(selectedPageTypeFilter, filter.filterValue) ? 'btn-primary':'btn-link'">
+						{{filter.displayName}} ({{filter.hitCount}})
+					</div>
+
+					<!-- 
+				<span class="dropdown-item" href="#">Action</span>
+				<a class="dropdown-item" href="#">Another action</a>
+				<a class="dropdown-item" href="#">Something else here</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="#">Separated link</a> -->
+				</div>
+			</div>
+		</ng-container>
+	</div>
+</ng-container>
+
+<div id="SelectedFilters" class="cards row">
+	<!-- row-cols-1 row-cols-md-1 row-cols-xl-1 -->
+	<div class="col" *ngIf="categoryFilters$ | async as selectedCats">
+		<div class="card card-thin hide-img-mobile addColour">
+			<div class="card-body">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-9 col-12">
+							Showing {{(filteredSearchResults$ | async)?.length}} of
+							{{(categoryFilteredSearchResults$ | async)?.length}} results
+							for '<cite><strong>{{searchTerm$|async}}</strong></cite>'
+						</div>
+						<div class="col-lg-3 col-12" *ngIf="selectedCats.length > 0" (click)="clearTags()">
+							<a class="link-primary" role="button">Clear all filters</a>
+						</div>
+					</div>
+				</div>
+				<div class="container">
+					<div class="row">
+						<div class="col-md-6 text-left pl-2 font-weight-bold" *ngIf="selectedCats.length > 0">
+							Applied filters:
+						</div>
+					</div>
+				</div>
+				<div *ngIf="selectedCats && selectedCats.length > 0" class="selectedCats">
+					<div *ngFor="let cat of selectedCats" (click)="tagClicked(cat)"
+						class="btn btn-outline-square btn-outline-primary mb-2 ml-1">
+						{{cat.name}}
+						<span *ngIf="isTagSelected(cat)" class="bi bi-x-lg align-middle"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

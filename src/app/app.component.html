@@ -1,0 +1,77 @@
+<div class="search-results pt-3">
+	<!-- Search Service URL: {{searchRoot}} -->
+	<div *ngIf="spellCheckResult && spellCheckResult.hits[0]">
+		Spell Check: {{spellCheckResult.hits![0].suggestion}} - {{spellCheckResult.hits![0].distance}}
+	</div>
+	<!-- Search Box -->
+	<form method="GET" name="SearchForm" autocomplete="off" (ngSubmit)="onNewSearchTermSubmitEvent($event,searchBox)"
+		class="question-form container-lg question-large" role="search" ngNoForm>
+		<!--[class.focus]="boxHasFocus" -->
+		<div class="form-group row">
+			<div class="col searchBoxCol">
+				<div class="row">
+					<div class="col-10">
+						<input id="SearchBox" name="q" type="text" class="form-control" [(ngModel)]="searchBox"
+							title="Search Sample" placeholder="Search Sample" aria-describedby="question-alert" required
+							minlength="3" (keydown.enter)="onNewSearchTermSubmitEvent($event,searchBox)"
+							aria-required="true" (focus)="boxFocus(true)" (blur)="boxFocus(false)">
+					</div>
+					<div class="col">
+						<button class="btn btn-primary" type="button"
+							(click)="onNewSearchTermSubmit(searchBox)"><span>Search</span>
+						</button>
+					</div>
+
+
+				</div>
+
+				<p *ngIf="error$ | async as error" role="alert" class="alert-danger">
+					{{error}}
+				</p>
+				<!-- Autocomplete box -->
+				<ng-container *ngIf="autoCompleteResult">
+					<!-- && boxHasFocus -->
+					<div class="outerContainer">
+						<div *ngIf="autoCompleteResult?.hits?.length! > 0">
+							<div *ngFor="let result of autoCompleteResult.hits" class="card card-thin">
+								<div class="card-body">
+									<p class="card-tite h6">
+										<a href="?q={{result.query}}" class="DPLMResultItem ">
+											{{result.query}}
+										</a>
+									</p>
+								</div>
+								<!-- This is if we want to use click trackng -->
+								<!-- <a [routerLink]="" (click)="linkClick(result)">{{result.name}}</a> -->
+
+							</div>
+						</div>
+					</div>
+				</ng-container>
+			</div>
+		</div>
+	</form>
+
+
+	<div class="container-lg searchResults" [hidden]="!!(loading$ | async)">
+		<div class="row" *ngIf="blockDetailsWithFinalCounts$ | async as blockDetails">
+
+			<!-- Category Filters -->
+			<sk-category-filters class="col-md-4"></sk-category-filters>
+
+			<!-- Section with results  -->
+			<sk-search-results class="col" />
+
+		</div>
+	</div>
+	<!-- Loader -->
+	<div class="container" *ngIf="(loading$ | async)">
+		<div class="row">
+			<div class="col text-center">
+				<h3>We're searching for results.</h3>
+				<sk-loader></sk-loader>
+			</div>
+		</div>
+
+	</div>
+</div>

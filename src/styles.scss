@@ -1,0 +1,92 @@
+/* You can add global styles to this file, and also import other style files */
+.card-footer .badge{
+	margin-right: 1em;
+}
+
+
+.isBestBet{
+	border-color: aqua;
+	border-width: 2px;
+}
+
+.categoryItem{
+	cursor: pointer;
+    border: 1px solid blue;
+    text-decoration: underline;
+    margin-top: 0.3em;
+    padding-left: 1em;
+    border-radius: .5em;
+
+}
+
+.categoryItem:hover{
+	background-color: aliceblue;
+}
+
+.selectedFilter{
+	background-color: cornflowerblue !important;
+}
+
+.addColour{
+	background-color: #DEEEFF !important;
+}
+
+em{
+	color:#5442A5;
+}
+/* 
+.searchResults .btn{
+	border-radius: 5px;
+} */
+.content-area .container-lg:not(.content-area) {
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 47.98em) {
+	#CatFilters {
+		padding-top: 2rem;
+		width: 100vw;
+		// max-width: 75vw;
+		height: 100vh;
+		overflow-y: auto;
+		position: fixed;
+		top: 0;
+		left: -100vw;
+		z-index: 1500; //Try to put this on top of the header
+		background: #fff;
+		// color: #fff;
+		transition: all 0.4s;
+		box-shadow: 3px 3px 3px rgba(89, 89, 89, 0.3);
+		text-align: left;
+	}
+	#CatFilters.showMenu {
+		left: 0;
+	}
+
+	#CatFilters #search-results-title {
+		background-color: white;
+		// box-shadow: 0 0.35rem 0.75rem rgba(0, 103, 177, 0.125), 0 2.5rem 1rem -2rem rgba(0, 103, 177, 0.18);
+		border-radius: 0.8rem;
+	}
+
+	.btn-small{
+		width: 50% !important;
+	}
+
+	.catFilterToggle {
+		// height:2.8rem;
+		width: 80px;
+		white-space: nowrap;
+		width: 8rem;
+	}
+
+	.card-collection .cards > .col {
+		margin-bottom: 2rem;
+	}
+}
+
+@media (min-width: 48em) {
+	.facets .btn {
+		margin: 0;
+	}
+}
